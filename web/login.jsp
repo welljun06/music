@@ -61,11 +61,11 @@
                         <form name="loginForm" id="form" align="center" action="${pageContext.request.contextPath}/LoginServlet" method="post" onsubmit="return checkLogin()">
                             <div class="form-group">
                                 <label class="sr-only" for="form-username">账号</label>
-                                <input type="text" name="cname" placeholder="Username..." class="form-username form-control" id="form-username">
+                                <input type="text" name="cname"  class="form-username form-control" id="form-username">
                             </div>
                             <div class="form-group">
                                 <label class="sr-only" for="form-password">密码</label>
-                                <input type="password" name="cpw" placeholder="Password..." class="form-password form-control" id="form-password">
+                                <input type="password" name="cpw"  class="form-password form-control" id="form-password">
                             </div>
                             <button type="submit" class="btn">登录！</button>
                         </form>

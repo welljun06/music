@@ -1,7 +1,5 @@
 package web;
 
-import domain.Song;
-import domain.SongList;
 import domain.User;
 import service.BusinessService;
 import service.impl.BusinessServiceImpl;
@@ -11,28 +9,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
-/*我的音乐se*/
-public class MyMusicServlet extends HttpServlet{
+
+public class TakeOffListServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             BusinessService service = new BusinessServiceImpl();
             String cid = request.getParameter("cid");
+            String lid = request.getParameter("lid");
+            service.takeOffList(cid,lid);
             User user = service.find(cid);
-            String lid = service.findFavListId(cid);
-            List<SongList> songList = service.findSongList(cid);
-            List<SongList> favSongList = service.findFavSongList(cid);
-            List<Song> songs = service.findSongListSongs(lid);
-            request.setAttribute("favSongList",favSongList);
-            request.setAttribute("songs",songs);
+            request.setAttribute("message","删除成功");
             request.setAttribute("user",user);
-            request.setAttribute("songList",songList);
-            request.getRequestDispatcher("/myMusic.jsp").forward(request, response);
+            request.getRequestDispatcher("/message.jsp").forward(request, response);
         }
         catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("message","查看歌曲失败");
+            request.setAttribute("message","失败");
             request.getRequestDispatcher("/message.jsp").forward(request, response);
         }
     }

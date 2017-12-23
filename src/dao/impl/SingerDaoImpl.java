@@ -50,6 +50,7 @@ public class SingerDaoImpl implements SingerDao{
         }
         return null;
     }
+    /*按照歌曲id和歌手名字定位歌手*/
     @Override
     public Singer findSinger(String sid,String pname) {
         Connection conn = null;

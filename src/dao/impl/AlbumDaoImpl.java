@@ -51,4 +51,33 @@ public class AlbumDaoImpl implements AlbumDao{
         }
         return null;
     }
+    /*按照专辑id查找歌曲*/
+    @Override
+    public Album findAlbum(String aid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            String sql = "select * from albums,singers where aid = ? and singers.pid=albums.pid";
+            st = conn.prepareStatement(sql);
+            st.setString(1, aid);
+            rs = st.executeQuery();
+            Album c = new Album();
+            while (rs.next()) {
+                c.setPid(rs.getInt("pid"));
+                c.setAid(rs.getInt("aid"));
+                c.setAinfo(rs.getString("ainfo"));
+                c.setAname(rs.getString("aname"));
+                c.setAyear(rs.getString("ayear"));
+                c.setPname(rs.getString("pname"));
+            }
+            return c;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
 }

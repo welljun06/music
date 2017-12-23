@@ -14,4 +14,6 @@ public interface SongDao {
     List<Song> findSongListSongs(String lid);
     void addFavSong(String cid, String sid);
     void delFavSong(String cid, String sid);
+    List<Song> findAlbumSongs(String aid); //找到专辑里面的歌曲
+    void addSongToList(String sid,String lid); //添加歌曲到歌单
 }

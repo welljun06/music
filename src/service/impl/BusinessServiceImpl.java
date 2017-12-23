@@ -50,7 +50,22 @@ public class BusinessServiceImpl implements BusinessService{
     public void addFavSong(String cid, String sid){songDao.addFavSong(cid,sid);}
     @Override
     public void delFavSong(String cid, String sid){songDao.delFavSong(cid,sid);}
-
+    @Override
+    public String findFavListId(String cid){return songListDao.findFavListID(cid);}
+    @Override
+    public void colList(String cid, String lid){songListDao.colList(cid,lid);}
+    @Override
+    public void takeOffList(String cid,String lid){songListDao.takeOffList(cid,lid);}
+    @Override
+    public List<Song> findAlbumSongs(String aid){return songDao.findAlbumSongs(aid);}
+    @Override
+    public Album findAlbum(String aid){return albumDao.findAlbum(aid);}
+    @Override
+    public void createList(String lname, String cid, String ltype,String linfo){songListDao.createList(lname,cid,ltype,linfo);}
+    @Override
+    public String findListID(String cid, String lname){return songListDao.findListID(cid, lname);}
+    @Override
+    public void addSongToList(String sid,String lid){songDao.addSongToList(sid,lid);}
     //manager
     @Override
     public String addsinger(String pname, String ptype, String pjpg, String pinfo) {

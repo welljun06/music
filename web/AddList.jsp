@@ -1,6 +1,6 @@
 <%@ page import="domain.User" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -28,6 +28,7 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
+
                 <li><a href="${pageContext.request.contextPath}/HotSongServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cd"></span> 发现音乐</a></li>
                 <li><a href="${pageContext.request.contextPath}/MyMusicServlet?cid=${user.cid}"><span class="glyphicon glyphicon-user"></span> 我的音乐</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
@@ -75,73 +76,41 @@
         </div>
     </div>
 </nav>
-
 <div class="container">
-    <div class="row">
-        <h3 class="text-center">歌曲搜索结果</h3>
-    </div>
+<form action="${pageContext.request.contextPath}/AddListSongServlet" method="post">
+歌单名字：<input type="text" name="lname"><br>
+歌单类型：<input type="text" name="ltype"><br>
+    歌单信息：<input type="text" name="linfo"><br>
     <div class="row table-responsive">
         <table class="table table-condensed table-striped">
-            <tr  class="success">
+            <tr class="info">
+                <td>选中</td>
                 <td>歌曲</td>
                 <td>专辑</td>
                 <td>歌手</td>
                 <td>歌曲时间</td>
                 <td>歌曲类型</td>
-                <td>喜爱</td>
+                <td>删除</td>
             </tr>
             <c:forEach var="c" items="${requestScope.songs }" varStatus="status">
                 <tr>
+                    <td><input type="checkbox" name="checkDelete" value="${c.sid}"></td>
                     <td><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
-                    <td>${c.aname}</td>
+                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
                     <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
                     <td>${c.stime}</td>
                     <td>${c.stype}</td>
-                    <td><a href="${pageContext.request.contextPath}/AddFavSongServlet?cid=${user.cid}&sid=${c.sid}"><span class="glyphicon glyphicon-plus"></span></a></td>
+                    <td><a href="${pageContext.request.contextPath}/DelFavSongServlet?cid=${user.cid}&sid=${c.sid}">
+                        <span class="glyphicon glyphicon-remove"></span></a></td>
                 </tr>
             </c:forEach>
+            <input type="hidden" name="cid" value=${user.cid}>
         </table>
+        <br>
+        <%response.setCharacterEncoding("UTF-8");%>
+        <input type="submit" value="ok">
     </div>
-    <div class="row">
-        <h3 class="text-center">歌手搜索结果</h3>
-    </div>
-    <div class="row table-responsive">
-        <table class="table table-condensed table-striped">
-            <tr  class="success">
-                <td>歌手</td>
-                <td>歌手类型</td>
-                <td>歌曲信息</td>
-            </tr>
-            <c:forEach var="c" items="${requestScope.singers }" varStatus="status">
-                <tr>
-                    <td>${c.pname}</td>
-                    <td>${c.ptype}</td>
-                    <td>${c.pinfo}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-    <div class="row">
-        <h3 class="text-center">专辑搜索结果</h3>
-    </div>
-    <div class="row table-responsive">
-        <table class="table table-condensed table-striped">
-            <tr  class="success">
-                <td>专辑</td>
-                <td>歌手</td>
-                <td>专辑年份</td>
-                <td>专辑信息</td>
-            </tr>
-            <c:forEach var="c" items="${requestScope.albums }" varStatus="status">
-                <tr>
-                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
-                    <td>${c.pname}</td>
-                    <td>${c.ayear}</td>
-                    <td>${c.ainfo}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
+</form>
 </div>
 </body>
 </html>

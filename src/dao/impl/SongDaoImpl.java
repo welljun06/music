@@ -114,6 +114,7 @@ public class SongDaoImpl implements SongDao{
         }
         return null;
     }
+    /*按照id查找歌曲*/
     @Override
     public Song findSong(String sid){
         Connection conn = null;
@@ -144,6 +145,7 @@ public class SongDaoImpl implements SongDao{
         }
         return null;
     }
+    /*找到用户曲库*/
     @Override
     public List<Song> findFavSongs(String cid){
         Connection conn = null;
@@ -168,6 +170,7 @@ public class SongDaoImpl implements SongDao{
         }
         return null;
     }
+    /*找到歌单对应歌曲*/
     @Override
     public List<Song> findSongListSongs(String lid){
         Connection conn = null;
@@ -236,6 +239,48 @@ public class SongDaoImpl implements SongDao{
             }
             /*插入歌曲到对应的歌单*/
             sql = "DELETE FROM song_list WHERE sid=? AND lid=?";
+            st = conn.prepareStatement(sql);
+            st.setString(1, sid);
+            st.setString(2, lid);
+            st.executeUpdate();
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+    /*找到专辑的歌曲*/
+    @Override
+    public List<Song> findAlbumSongs(String aid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            String sql = "SELECT * FROM songs,albums,singers WHERE albums.aid=? AND songs.aid=albums.aid and albums.pid=singers.pid";
+            st = conn.prepareStatement(sql);
+            st.setString(1, aid);
+            rs = st.executeQuery();
+            List<Song> list = new ArrayList<Song>();
+            list = setSong(rs);
+            return list;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
+    /*添加歌曲到歌单*/
+    @Override
+    public void addSongToList(String sid, String lid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            /*插入歌曲到对应的歌单*/
+            String sql = "INSERT INTO song_list VALUES (?,?,now())";
             st = conn.prepareStatement(sql);
             st.setString(1, sid);
             st.setString(2, lid);

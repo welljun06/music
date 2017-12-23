@@ -93,17 +93,20 @@
             <c:forEach var="c" items="${requestScope.songs }" varStatus="status">
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
-                    <td>${c.aname}</td>
+                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
                     <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
                     <td>${c.stime}</td>
                     <td>${c.stype}</td>
-                    <td><a href="${pageContext.request.contextPath}/DelFavSongServlet?cid=${user.cid}&sid=${c.sid}"><span class="glyphicon glyphicon-remove"></span></a></td>
+                    <td><a href="${pageContext.request.contextPath}/DelFavSongServlet?cid=${user.cid}&sid=${c.sid}">
+                        <span class="glyphicon glyphicon-remove"></span></a></td>
                 </tr>
             </c:forEach>
         </table>
     </div>
     <div class="row">
-        <h3 class="text-center">${user.cname}的创建歌单</h3>
+        <span class="col-md-4"></span>
+        <h3 class="text-center col-md-4">${user.cname}的创建歌单</h3>
+        <a class="col-md-4  text-right" href="${pageContext.request.contextPath}/AddListServlet?cid=${user.cid}" style="margin-bottom: 0px"><p>创建歌单</p></a>
     </div>
     <div class="row table-responsive">
         <table class="table table-condensed table-striped">
@@ -136,6 +139,7 @@
                 <td>播放次数</td>
                 <td>创建时间</td>
                 <td>歌单信息</td>
+                <td>取消收藏</td>
             </tr>
             <c:forEach var="c" items="${requestScope.favSongList }" varStatus="status">
                 <tr>
@@ -144,6 +148,7 @@
                     <td>${c.lcount}</td>
                     <td>${c.ltime}</td>
                     <td>${c.linfo}</td>
+                    <td><a href="${pageContext.request.contextPath}/TakeOffListServlet?cid=${user.cid}&lid=${c.lid}"><span class="glyphicon glyphicon-remove"></span></a></td>
                 </tr>
             </c:forEach>
         </table>

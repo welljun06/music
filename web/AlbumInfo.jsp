@@ -28,6 +28,7 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
+
                 <li><a href="${pageContext.request.contextPath}/HotSongServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cd"></span> 发现音乐</a></li>
                 <li><a href="${pageContext.request.contextPath}/MyMusicServlet?cid=${user.cid}"><span class="glyphicon glyphicon-user"></span> 我的音乐</a></li>
                 <li><a href="#"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
@@ -75,14 +76,25 @@
         </div>
     </div>
 </nav>
-
 <div class="container">
     <div class="row">
-        <h3 class="text-center">歌曲搜索结果</h3>
-    </div>
-    <div class="row table-responsive">
+        <div class="row">
+            <h3 class="text-center">${album.aname}</h3>
+        </div>
         <table class="table table-condensed table-striped">
-            <tr  class="success">
+            <tr class="success">
+                <td>专辑</td>
+                <td>专辑年份</td>
+                <td>专辑信息</td>
+            </tr>
+            <tr>
+                <td>${album.aname}</td>
+                <td>${album.ayear}</td>
+                <td>${album.ainfo}</td>
+            </tr>
+        </table>
+        <table class="table table-condensed table-striped">
+            <tr class="info">
                 <td>歌曲</td>
                 <td>专辑</td>
                 <td>歌手</td>
@@ -90,54 +102,14 @@
                 <td>歌曲类型</td>
                 <td>喜爱</td>
             </tr>
-            <c:forEach var="c" items="${requestScope.songs }" varStatus="status">
+            <c:forEach var="c" items="${requestScope.songs}" varStatus="status">
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
-                    <td>${c.aname}</td>
+                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
                     <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
                     <td>${c.stime}</td>
                     <td>${c.stype}</td>
                     <td><a href="${pageContext.request.contextPath}/AddFavSongServlet?cid=${user.cid}&sid=${c.sid}"><span class="glyphicon glyphicon-plus"></span></a></td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-    <div class="row">
-        <h3 class="text-center">歌手搜索结果</h3>
-    </div>
-    <div class="row table-responsive">
-        <table class="table table-condensed table-striped">
-            <tr  class="success">
-                <td>歌手</td>
-                <td>歌手类型</td>
-                <td>歌曲信息</td>
-            </tr>
-            <c:forEach var="c" items="${requestScope.singers }" varStatus="status">
-                <tr>
-                    <td>${c.pname}</td>
-                    <td>${c.ptype}</td>
-                    <td>${c.pinfo}</td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-    <div class="row">
-        <h3 class="text-center">专辑搜索结果</h3>
-    </div>
-    <div class="row table-responsive">
-        <table class="table table-condensed table-striped">
-            <tr  class="success">
-                <td>专辑</td>
-                <td>歌手</td>
-                <td>专辑年份</td>
-                <td>专辑信息</td>
-            </tr>
-            <c:forEach var="c" items="${requestScope.albums }" varStatus="status">
-                <tr>
-                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
-                    <td>${c.pname}</td>
-                    <td>${c.ayear}</td>
-                    <td>${c.ainfo}</td>
                 </tr>
             </c:forEach>
         </table>

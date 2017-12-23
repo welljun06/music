@@ -88,6 +88,8 @@
                 <td>播放次数</td>
                 <td>创建时间</td>
                 <td>歌单信息</td>
+                <td>收藏</td>
+
             </tr>
             <c:forEach var="c" items="${requestScope.songLists }" varStatus="status">
                 <tr>
@@ -96,6 +98,7 @@
                     <td>${c.lcount}</td>
                     <td>${c.ltime}</td>
                     <td>${c.linfo}</td>
+                    <td><a href="${pageContext.request.contextPath}/ColListServlet?cid=${user.cid}&lid=${c.lid}"><span class="glyphicon glyphicon-plus"></span></a></td>
                 </tr>
             </c:forEach>
         </table>
@@ -116,7 +119,7 @@
             <c:forEach var="c" items="${requestScope.list1 }" varStatus="status">
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
-                    <td>${c.aname}</td>
+                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
                     <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
                     <td>${c.stime}</td>
                     <td>${c.stype}</td>
@@ -141,7 +144,7 @@
             <c:forEach var="c" items="${requestScope.list2}" varStatus="status">
                 <tr>
                     <td><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
-                    <td>${c.aname}</td>
+                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
                     <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
                     <td>${c.stime}</td>
                     <td>${c.stype}</td>
