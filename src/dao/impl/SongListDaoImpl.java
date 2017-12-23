@@ -8,8 +8,7 @@ import util.JdbcUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SongListDaoImpl implements SongListDao{
     private List<SongList> setSongList(ResultSet rs){
@@ -200,5 +199,72 @@ public class SongListDaoImpl implements SongListDao{
         }
         return null;
     }
+    /*根据歌单id删除歌单*/
+    @Override
+    public void delList(String lid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            //先删除该歌单与歌曲的连接
+            String sql = "DELETE FROM song_list WHERE lid=?";
+            st = conn.prepareStatement(sql);
+            st.setString(1, lid);
+            st.executeUpdate();
+            //删除该歌单
+            sql = "DELETE FROM lists WHERE lid=?";
+            st = conn.prepareStatement(sql);
+            st.setString(1, lid);
+            st.executeUpdate();
+        } catch (Exception e) {
 
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+    /*根据歌单id返回歌单最多类型*/
+    @Override
+    public String findListType(String lid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            //得到用户favsong的stype的list
+            String sql = "select stype from songs,song_list where songs.sid = song_list.sid and lid=?;";
+            st = conn.prepareStatement(sql);
+            st.setString(1, lid);
+            rs = st.executeQuery();
+            //得到用户喜爱歌单中
+            Map<String, Integer> stype = new HashMap<String , Integer>();
+            while(rs.next()){
+                String type = rs.getString("stype");
+                if(!stype.containsKey(type)){
+                    stype.put(type,0);
+                }
+                else{
+                    Integer count = stype.get(type);
+                    stype.put(type,++count);
+                }
+            }
+            //找出次数最大的stype
+            Iterator<Map.Entry<String, Integer>> entries = stype.entrySet().iterator();
+            int count = 0;
+            String type = null;
+            while (entries.hasNext()) {
+                Map.Entry<String, Integer> entry = entries.next();
+                if(entry.getValue()>count){
+                    count = entry.getValue();
+                    type = entry.getKey();
+                }
+            }
+            return type;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
 }

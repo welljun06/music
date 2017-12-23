@@ -31,6 +31,10 @@ public interface BusinessService {
     void createList(String lname, String cid, String ltype,String linfo); //用户自定义歌单
     String findListID(String cid, String lname); //根据用户id和歌单名字查找歌单ID
     void addSongToList(String sid,String lid); //添加歌曲到歌单
+    void delList(String lid); //删除歌单
+    void addSongCount(String sid); //增加播放次数
+    List<Song> commend(String lid,String stype); //根据用户爱歌单id和类型推荐歌曲
+    String findListType(String lid); //根据歌单id返回类型
 //    manager
     String addsinger(String pname,String ptype,String pjpg,String pinfo);
     String addalbum(String aname, String atime, String ainfo,String pid);

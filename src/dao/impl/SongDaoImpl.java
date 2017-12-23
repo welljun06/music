@@ -7,8 +7,7 @@ import util.JdbcUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SongDaoImpl implements SongDao{
     private List<Song> setSong(ResultSet rs){
@@ -291,4 +290,50 @@ public class SongDaoImpl implements SongDao{
             JdbcUtils.release(conn, st, rs);
         }
     }
+    /*增加歌曲播放次数*/
+    public void addSongCount(String sid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            /*插入歌曲到对应的歌单*/
+            String sql = "INSERT INTO song_list VALUES (?,?,now())";
+            st = conn.prepareStatement(sql);
+            st.setString(1, sid);
+            st.executeUpdate();
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+    /*根据用户爱歌单id推荐歌曲*/
+    public List<Song> commend(String lid, String stype){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+
+            //找出该标签的其他歌，除去喜爱歌单的歌
+            String sql = "select * from songs,albums,singers where stype=? AND songs.aid = albums.aid and albums.pid=singers.pid " +
+                    "and songs.sid not in" +
+                    "(select songs.sid from songs,albums,singers,lists,song_list where stype=? and lists.lid= ? AND songs.aid = albums.aid and albums.pid=singers.pid and lists.lid = song_list.lid and song_list.sid = songs.sid) order by songs.scount desc LIMIT 15 OFFSET 0";
+            st = conn.prepareStatement(sql);
+            st.setString(1, stype);
+            st.setString(2, stype);
+            st.setString(3, lid);
+            rs = st.executeQuery();
+            List<Song> list = new ArrayList<Song>();
+            list = setSong(rs);
+            return list;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
+
 }

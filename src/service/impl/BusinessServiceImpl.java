@@ -66,6 +66,14 @@ public class BusinessServiceImpl implements BusinessService{
     public String findListID(String cid, String lname){return songListDao.findListID(cid, lname);}
     @Override
     public void addSongToList(String sid,String lid){songDao.addSongToList(sid,lid);}
+    @Override
+    public void delList(String lid){songListDao.delList(lid);}
+    @Override
+    public void addSongCount(String sid){songDao.addSongCount(sid);}
+    @Override
+    public List<Song> commend(String lid, String stype){return songDao.commend(lid,stype);}
+    @Override
+    public String findListType(String lid){return songListDao.findListType(lid);}
     //manager
     @Override
     public String addsinger(String pname, String ptype, String pjpg, String pinfo) {

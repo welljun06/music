@@ -30,7 +30,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="${pageContext.request.contextPath}/HotSongServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cd"></span> 发现音乐</a></li>
                 <li class="active"><a href="${pageContext.request.contextPath}/MyMusicServlet?cid=${user.cid}"><span class="glyphicon glyphicon-user"></span> 我的音乐</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
+                <li><a href="${pageContext.request.contextPath}/CommendServlet?cid=${user.cid}"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-list"></span> 排行榜
@@ -83,6 +83,7 @@
     <div class="row table-responsive">
         <table class="table table-condensed table-striped">
             <tr class="info">
+                <td>图片</td>
                 <td>歌曲</td>
                 <td>专辑</td>
                 <td>歌手</td>
@@ -92,12 +93,13 @@
             </tr>
             <c:forEach var="c" items="${requestScope.songs }" varStatus="status">
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
-                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
-                    <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
-                    <td>${c.stime}</td>
-                    <td>${c.stype}</td>
-                    <td><a href="${pageContext.request.contextPath}/DelFavSongServlet?cid=${user.cid}&sid=${c.sid}">
+                    <td style="width: 60px;height: 60px""><div style="width: 60px;height: 60px"><img style="width: 60px;height: 60px" src="img/albums/${c.aid}.jpg" class="img-rounded img-responsive" alt="Responsive image"></div></td>
+                    <td style="vertical-align: middle;"><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
+                    <td style="vertical-align: middle;"><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
+                    <td style="vertical-align: middle;"><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
+                    <td style="vertical-align: middle;">${c.stime}</td>
+                    <td style="vertical-align: middle;">${c.stype}</td>
+                    <td style="vertical-align: middle;"><a href="${pageContext.request.contextPath}/DelFavSongServlet?cid=${user.cid}&sid=${c.sid}">
                         <span class="glyphicon glyphicon-remove"></span></a></td>
                 </tr>
             </c:forEach>
@@ -116,6 +118,7 @@
                 <td>播放次数</td>
                 <td>创建时间</td>
                 <td>歌单信息</td>
+                <td>删除歌单</td>
             </tr>
             <c:forEach var="c" items="${requestScope.songList }" varStatus="status">
             <tr>
@@ -124,6 +127,7 @@
                 <td>${c.lcount}</td>
                 <td>${c.ltime}</td>
                 <td>${c.linfo}</td>
+                <td><a href="${pageContext.request.contextPath}/DelListServlet?cid=${user.cid}&lid=${c.lid}"><span class="glyphicon glyphicon-remove"></span></a></td>
             </tr>
             </c:forEach>
         </table>

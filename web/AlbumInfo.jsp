@@ -31,7 +31,7 @@
 
                 <li><a href="${pageContext.request.contextPath}/HotSongServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cd"></span> 发现音乐</a></li>
                 <li><a href="${pageContext.request.contextPath}/MyMusicServlet?cid=${user.cid}"><span class="glyphicon glyphicon-user"></span> 我的音乐</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
+                <li><a href="${pageContext.request.contextPath}/CommendServlet?cid=${user.cid}"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-list"></span> 排行榜
@@ -77,24 +77,24 @@
     </div>
 </nav>
 <div class="container">
-    <div class="row">
-        <div class="row">
-            <h3 class="text-center">${album.aname}</h3>
+    <div class="row" style="padding-bottom: 15px;">
+        <div class="col-md-4">
+            <div><img src="img/albums/${album.aid}.jpg" class="img-thumbnail img-responsive" alt="Responsive image"></div>
         </div>
+        <div class="col-md-8">
+            <h1>${album.aname}</h1>
+            专辑年份：<br>
+            ${album.ayear}<br>
+            专辑信息：
+            <div class = "pre-scrollable" style="height: 230px;">
+            ${album.ainfo}
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
         <table class="table table-condensed table-striped">
-            <tr class="success">
-                <td>专辑</td>
-                <td>专辑年份</td>
-                <td>专辑信息</td>
-            </tr>
             <tr>
-                <td>${album.aname}</td>
-                <td>${album.ayear}</td>
-                <td>${album.ainfo}</td>
-            </tr>
-        </table>
-        <table class="table table-condensed table-striped">
-            <tr class="info">
                 <td>歌曲</td>
                 <td>专辑</td>
                 <td>歌手</td>
@@ -109,7 +109,7 @@
                     <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
                     <td>${c.stime}</td>
                     <td>${c.stype}</td>
-                    <td><a href="${pageContext.request.contextPath}/AddFavSongServlet?cid=${user.cid}&sid=${c.sid}"><span class="glyphicon glyphicon-plus"></span></a></td>
+                    <td><a href="${pageContext.request.contextPath}/AddFavSongServlet?cid=${user.cid}&sid=${c.sid}"><span class="glyphicon glyphicon-heart" style="color: red"></span></a></td>
                 </tr>
             </c:forEach>
         </table>

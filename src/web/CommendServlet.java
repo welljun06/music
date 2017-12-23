@@ -1,5 +1,6 @@
 package web;
 
+import domain.Song;
 import domain.SongList;
 import domain.User;
 import service.BusinessService;
@@ -9,25 +10,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.*;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.URLEncoder;
 import java.util.List;
 
-public class AddFavSongServlet extends HttpServlet{
+public class CommendServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-
             BusinessService service = new BusinessServiceImpl();
             String cid = request.getParameter("cid");
-            String sid = request.getParameter("sid");
-            service.addFavSong(cid,sid);
+            //得到用户最爱歌单id
+            String lid = service.findFavListId(cid);
             User user = service.find(cid);
-            request.setAttribute("message","收藏成功");
+            String type = service.findListType(lid);
+            List<Song> songs = service.commend(lid,type);
+            request.setAttribute("songs",songs);
             request.setAttribute("user",user);
-            request.getRequestDispatcher("/message.jsp").forward(request, response);
+            request.setAttribute("type",type);
+            request.getRequestDispatcher("/commend.jsp").forward(request, response);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -35,7 +35,6 @@ public class AddFavSongServlet extends HttpServlet{
             request.getRequestDispatcher("/message.jsp").forward(request, response);
         }
     }
-
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException,IOException {
         doGet(request, response);

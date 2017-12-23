@@ -164,5 +164,21 @@
         <servlet-name>AddListSongServlet</servlet-name>
         <url-pattern>/AddListSongServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>DelListServlet</servlet-name>
+        <servlet-class>web.DelListServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DelListServlet</servlet-name>
+        <url-pattern>/DelListServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>CommendServlet</servlet-name>
+        <servlet-class>web.CommendServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CommendServlet</servlet-name>
+        <url-pattern>/CommendServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
 

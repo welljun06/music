@@ -30,7 +30,7 @@
             <ul class="nav navbar-nav">
                 <li><a href="${pageContext.request.contextPath}/HotSongServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cd"></span> 发现音乐</a></li>
                 <li><a href="${pageContext.request.contextPath}/MyMusicServlet?cid=${user.cid}"><span class="glyphicon glyphicon-user"></span> 我的音乐</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
+                <li><a href="${pageContext.request.contextPath}/CommendServlet?cid=${user.cid}"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-list"></span> 排行榜
@@ -85,7 +85,7 @@
                 <tr  class="success">
                     <td>歌手</td>
                     <td>歌手类型</td>
-                    <td>歌曲信息</td>
+                    <td>歌手信息</td>
                 </tr>
                 <tr>
                     <td>${singer.pname}</td>

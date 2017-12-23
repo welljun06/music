@@ -14,4 +14,5 @@ public interface SongListDao {
     void createList(String lname, String cid, String ltype,String linfo); //用户创建歌单
     String findListID(String cid,String lname); //根据用户id和歌单名字寻找歌单id
     void delList(String lid); //根据歌单id和删除歌单
+    String findListType(String lid); //根据歌单id返回该歌单最多类型
 }
