@@ -13,6 +13,7 @@
 <body>
 ${manager.mname}
 <div>
+    <a href="${pageContext.request.contextPath}/AllLogServlet">显示日志</a>
 <form name="form" id="form" align="center" action="${pageContext.request.contextPath}/AddServlet" method="post">
     <div  id="loginFormMain">
         <table  style="width:468px;height:262px;background-color:rgba(203,74,188,0.57);text-align: center;">

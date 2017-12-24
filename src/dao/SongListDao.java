@@ -15,4 +15,6 @@ public interface SongListDao {
     String findListID(String cid,String lname); //根据用户id和歌单名字寻找歌单id
     void delList(String lid); //根据歌单id和删除歌单
     String findListType(String lid); //根据歌单id返回该歌单最多类型
+    List<SongList> getHotSongList(); //返回热门歌单
+    void addListCount(String lid); //增加歌单播放量
 }

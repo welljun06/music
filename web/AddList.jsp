@@ -5,7 +5,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <title>网易云音乐</title>
+    <title>云音乐</title>
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
     <link rel='stylesheet' href='css/style.css'>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand"><span class="glyphicon glyphicon-headphones"></span> 音乐云平台</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/IndexServlet?cid=${user.cid}"><span class="glyphicon glyphicon-headphones"></span> 音乐云平台</a>
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
@@ -38,13 +38,8 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">jmeter</a></li>
-                        <li><a href="#">EJB</a></li>
-                        <li><a href="#">Jasper Report</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">分离的链接</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">另一个分离的链接</a></li>
+                        <li><a href="${pageContext.request.contextPath}/RankSongServlet?cid=${user.cid}">热门歌曲排行</a></li>
+                        <li><a href="${pageContext.request.contextPath}/RankAlbumServlet?cid=${user.cid}">热门专辑排行</a></li>
                     </ul>
                 </li>
             </ul>
@@ -63,6 +58,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img style="width: 20px;height: 20px;margin: 0em" src="img/users/${user.cid}.jpg" class="img-circle">
                             ${ user.cname }
                             <b class="caret"></b>
                         </a>
@@ -78,9 +74,20 @@
 </nav>
 <div class="container">
 <form action="${pageContext.request.contextPath}/AddListSongServlet" method="post">
-歌单名字：<input type="text" name="lname"><br>
-歌单类型：<input type="text" name="ltype"><br>
-    歌单信息：<input type="text" name="linfo"><br>
+
+    <div class="input-group" style="padding: 1em">
+        <span class="input-group-addon"  >歌单名字：</span>
+        <input type="text" name="lname" class="form-control" placeholder="请输入" aria-describedby="basic-addon1" >
+    </div>
+    <div class="input-group" style="padding: 1em">
+        <span class="input-group-addon">歌单类型：</span>
+        <input type="text" name="ltype" class="form-control" placeholder="请输入" aria-describedby="basic-addon1" style="margin: auto">
+    </div>
+    <div class="input-group" style="padding: 1em">
+        <span class="input-group-addon">歌单信息：</span>
+        <input type="text" name="linfo" class="form-control" placeholder="请输入" aria-describedby="basic-addon1" style="margin: auto">
+    </div>
+
     <div class="row table-responsive">
         <table class="table table-condensed table-striped">
             <tr class="info">
@@ -90,7 +97,6 @@
                 <td>歌手</td>
                 <td>歌曲时间</td>
                 <td>歌曲类型</td>
-                <td>删除</td>
             </tr>
             <c:forEach var="c" items="${requestScope.songs }" varStatus="status">
                 <tr>
@@ -100,15 +106,15 @@
                     <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
                     <td>${c.stime}</td>
                     <td>${c.stype}</td>
-                    <td><a href="${pageContext.request.contextPath}/DelFavSongServlet?cid=${user.cid}&sid=${c.sid}">
-                        <span class="glyphicon glyphicon-remove"></span></a></td>
                 </tr>
             </c:forEach>
             <input type="hidden" name="cid" value=${user.cid}>
         </table>
         <br>
         <%response.setCharacterEncoding("UTF-8");%>
-        <input type="submit" value="ok">
+        <div class="text-center" style="padding-bottom: 3em">
+        <input type="submit" value="ok" class="btn btn-success">
+        </div>
     </div>
 </form>
 </div>

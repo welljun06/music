@@ -35,9 +35,16 @@ public interface BusinessService {
     void addSongCount(String sid); //增加播放次数
     List<Song> commend(String lid,String stype); //根据用户爱歌单id和类型推荐歌曲
     String findListType(String lid); //根据歌单id返回类型
+    List<Album> rankAlbum(); //返回热门专辑
+    List<SongList> getHotSongList(); //返回热门歌单
+    List<Song> getSingerSong(String pid); //返回该歌手所有歌
+    String getSingerId(String sid,String pname); //返回该歌手的id
+    void addListCount(String lid); //增加歌曲播放量
 //    manager
     String addsinger(String pname,String ptype,String pjpg,String pinfo);
     String addalbum(String aname, String atime, String ainfo,String pid);
     String addsong(String sname,String stime,int scount,String stype,String aid);
     void deletesong(String sid);
+    List<Log> getAllLog();
+    int addUser(String cid,String cname,String cpw,String cjpg,String cinfo);
 }

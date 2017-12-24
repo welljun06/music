@@ -20,6 +20,7 @@ public class PlayServlet extends HttpServlet{
             String sid = request.getParameter("sid");
             User user = service.find(cid);
             Song song = service.findSong(sid);
+            service.addSongCount(sid);
             request.setAttribute("user",user);
             request.setAttribute("song",song);
             request.getRequestDispatcher("/play.jsp").forward(request, response);

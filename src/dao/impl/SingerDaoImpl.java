@@ -8,6 +8,7 @@ import util.JdbcUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,13 +57,16 @@ public class SingerDaoImpl implements SingerDao{
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
+        Statement stmt;
         try {
             conn = JdbcUtils.GetConnection();
-            String sql = "select * from singers,songs,albums where sid=? and pname=? and singers.pid = albums.pid and albums.aid = songs.aid";
-            st = conn.prepareStatement(sql);
-            st.setString(1, sid);
-            st.setString(2,pname);
-            rs = st.executeQuery();
+            stmt=conn.createStatement();
+            //String sql = "select * from singers,songs,albums where sid=? and pname=? and singers.pid = albums.pid and albums.aid = songs.aid";
+            String sql = "call find_singer_pro("+sid+",'"+pname+"')";
+            //st = conn.prepareStatement(sql);
+            //st.setString(1, sid);
+            //st.setString(2,pname);
+            rs = stmt.executeQuery(sql);
             Singer c = new Singer();
             while (rs.next()){
                 c.setPid(rs.getInt("pid"));
@@ -72,6 +76,30 @@ public class SingerDaoImpl implements SingerDao{
                 c.setPinfo(rs.getString("pinfo"));
             }
             return c;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
+    @Override
+    public String getSingerId(String sid, String pname){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            String sql = "select singers.pid from singers,albums,songs where singers.pid=albums.pid and albums.aid=songs.aid and singers.pname=? and sid=?;";
+            st = conn.prepareStatement(sql);
+            st.setString(1, pname);
+            st.setString(2, sid);
+            rs = st.executeQuery();
+            String pid=null;
+            while (rs.next()){
+                pid=rs.getString("pid");
+            }
+            return pid;
         } catch (Exception e) {
 
         } finally {

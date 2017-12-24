@@ -5,9 +5,11 @@ import domain.Song;
 import domain.SongList;
 import util.JdbcUtils;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.*;
 
 public class SongListDaoImpl implements SongListDao{
@@ -54,17 +56,19 @@ public class SongListDaoImpl implements SongListDao{
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
+        Statement stmt;
         try {
             conn = JdbcUtils.GetConnection();
-            String sql = "select * from lists where cid=?";
-            st = conn.prepareStatement(sql);
-            st.setString(1, cid);
-            rs = st.executeQuery();
+            stmt=conn.createStatement();
+            //String sql = "select * from lists where cid=?";
+            String sql = "call find_songList("+cid+")";
+            //st = conn.prepareStatement(sql);
+            //st.setString(1, cid);
+            rs = stmt.executeQuery(sql);
             List<SongList> list = new ArrayList<SongList>();
             list = setSongList(rs);
             return list;
         } catch (Exception e) {
-
         } finally {
             JdbcUtils.release(conn, st, rs);
         }
@@ -75,12 +79,15 @@ public class SongListDaoImpl implements SongListDao{
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
+        Statement stmt;
         try {
             conn = JdbcUtils.GetConnection();
-            String sql = "select * from user_list,lists where user_list.cid=? AND user_list.lid=lists.lid;";
-            st = conn.prepareStatement(sql);
-            st.setString(1, cid);
-            rs = st.executeQuery();
+            stmt=conn.createStatement();
+            //String sql = "select * from user_list,lists where user_list.cid=? AND user_list.lid=lists.lid;";
+            String sql = "call find_FavSongList("+cid+")";
+            //st = conn.prepareStatement(sql);
+            //st.setString(1, cid);
+            rs = stmt.executeQuery(sql);
             List<SongList> list = new ArrayList<SongList>();
             list = setSongList(rs);
             return list;
@@ -267,4 +274,46 @@ public class SongListDaoImpl implements SongListDao{
         }
         return null;
     }
+    /*12个热门歌单*/
+    @Override
+    public List<SongList> getHotSongList(){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            String sql = "select * from lists order by lcount desc LIMIT 12 OFFSET 0";
+            st = conn.prepareStatement(sql);
+            rs = st.executeQuery();
+            List<SongList> list = new ArrayList<SongList>();
+            list = setSongList(rs);
+            return list;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
+    /*增加歌单播放量*/
+    @Override
+    public void addListCount(String lid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        Statement stmt;
+        try {
+            conn = JdbcUtils.GetConnection();
+            stmt =conn.createStatement();
+            String sql = "call update_list_lcount("+lid+")";
+            //st = conn.prepareStatement(sql);
+            //st.setString(1, sid);
+            stmt.executeQuery(sql);
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+    }
+
 }

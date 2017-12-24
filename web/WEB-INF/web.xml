@@ -180,5 +180,47 @@
         <servlet-name>CommendServlet</servlet-name>
         <url-pattern>/CommendServlet</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RankSongServlet</servlet-name>
+        <servlet-class>web.RankSongServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RankSongServlet</servlet-name>
+        <url-pattern>/RankSongServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RankAlbumServlet</servlet-name>
+        <servlet-class>web.RankAlbumServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RankAlbumServlet</servlet-name>
+        <url-pattern>/RankAlbumServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AllLogServlet</servlet-name>
+        <servlet-class>web.manager.AllLogServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AllLogServlet</servlet-name>
+        <url-pattern>/AllLogServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>web.RegisterServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/RegisterServlet</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>IndexServlet</servlet-name>
+        <servlet-class>web.IndexServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IndexServlet</servlet-name>
+        <url-pattern>/IndexServlet</url-pattern>
+    </servlet-mapping>
 </web-app>
 

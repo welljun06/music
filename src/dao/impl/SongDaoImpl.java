@@ -7,6 +7,7 @@ import util.JdbcUtils;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.*;
 
 public class SongDaoImpl implements SongDao{
@@ -118,13 +119,16 @@ public class SongDaoImpl implements SongDao{
     public Song findSong(String sid){
         Connection conn = null;
         PreparedStatement st = null;
+        Statement stmt;
         ResultSet rs = null;
         try {
             conn = JdbcUtils.GetConnection();
-            String sql = "select * from albums,songs,singers where sid=? and songs.aid = albums.aid and albums.pid = singers.pid";
-            st = conn.prepareStatement(sql);
-            st.setString(1, sid);
-            rs = st.executeQuery();
+            stmt=conn.createStatement();
+            //String sql = "select * from albums,songs,singers where sid=? and songs.aid = albums.aid and albums.pid = singers.pid";
+            String sql = "call find_song(" + sid + ")";
+            //st = conn.prepareStatement(sql);
+            //st.setString(1, sid);
+            rs = stmt.executeQuery(sql);
             Song c = new Song();
             while (rs.next()){
                 c.setSid(rs.getInt("sid"));
@@ -295,13 +299,15 @@ public class SongDaoImpl implements SongDao{
         Connection conn = null;
         PreparedStatement st = null;
         ResultSet rs = null;
+        Statement stmt;
         try {
             conn = JdbcUtils.GetConnection();
+            stmt =conn.createStatement();
             /*插入歌曲到对应的歌单*/
-            String sql = "INSERT INTO song_list VALUES (?,?,now())";
-            st = conn.prepareStatement(sql);
-            st.setString(1, sid);
-            st.executeUpdate();
+            String sql = "call update_scount("+sid+")";
+            //st = conn.prepareStatement(sql);
+            //st.setString(1, sid);
+            stmt.executeQuery(sql);
         } catch (Exception e) {
 
         } finally {
@@ -335,5 +341,26 @@ public class SongDaoImpl implements SongDao{
         }
         return null;
     }
+    /*返回该歌手所有歌*/
+    public List<Song> getSingerSong(String pid){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
 
+            String sql = "select * from singers,albums,songs where singers.pid=albums.pid and albums.aid=songs.aid and singers.pid=?";
+            st = conn.prepareStatement(sql);
+            st.setString(1, pid);
+            rs = st.executeQuery();
+            List<Song> list = new ArrayList<Song>();
+            list = setSong(rs);
+            return list;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
 }

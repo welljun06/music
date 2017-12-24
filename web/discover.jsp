@@ -5,7 +5,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <title>网易云音乐</title>
+    <title>云音乐</title>
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
     <link rel='stylesheet' href='css/style.css'>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand"><span class="glyphicon glyphicon-headphones"></span> 音乐云平台</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/IndexServlet?cid=${user.cid}"><span class="glyphicon glyphicon-headphones"></span> 音乐云平台</a>
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
@@ -37,13 +37,8 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">jmeter</a></li>
-                        <li><a href="#">EJB</a></li>
-                        <li><a href="#">Jasper Report</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">分离的链接</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">另一个分离的链接</a></li>
+                        <li><a href="${pageContext.request.contextPath}/RankSongServlet?cid=${user.cid}">热门歌曲排行</a></li>
+                        <li><a href="${pageContext.request.contextPath}/RankAlbumServlet?cid=${user.cid}">热门专辑排行</a></li>
                     </ul>
                 </li>
             </ul>
@@ -62,8 +57,10 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img style="width: 20px;height: 20px;margin: 0em" src="img/users/${user.cid}.jpg" class="img-circle">
                             ${ user.cname }
                             <b class="caret"></b>
+
                         </a>
                         <ul class="dropdown-menu">
                             <li><a href="${pageContext.request.contextPath}/UserInfoServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cog"></span> 个人信息</a></li>
@@ -81,25 +78,42 @@
         <h3 class="text-center">歌单推荐</h3>
     </div>
     <div class="row table-responsive">
-        <table class="table table-condensed table-striped">
-            <tr class="info">
-                <td>歌单</td>
-                <td>歌单类型</td>
-                <td>播放次数</td>
-                <td>创建时间</td>
-                <td>歌单信息</td>
-                <td>收藏</td>
-
-            </tr>
-            <c:forEach var="c" items="${requestScope.songLists }" varStatus="status">
+        <table class="table table-condensed">
+            <%--<tr class="info">--%>
+                <%--<td>歌单</td>--%>
+                <%--<td>歌单类型</td>--%>
+                <%--<td>播放次数</td>--%>
+                <%--<td>创建时间</td>--%>
+                <%--<td>歌单信息</td>--%>
+                <%--<td>收藏</td>--%>
+            <%--</tr>--%>
                 <tr>
-                    <td><a href="${pageContext.request.contextPath}/SongListInfoServlet?cid=${user.cid}&lid=${c.lid}&lname=${c.lname}">${c.lname}</a></td>
-                    <td>${c.ltype}</td>
-                    <td>${c.lcount}</td>
-                    <td>${c.ltime}</td>
-                    <td>${c.linfo}</td>
-                    <td><a href="${pageContext.request.contextPath}/ColListServlet?cid=${user.cid}&lid=${c.lid}"><span class="glyphicon glyphicon-plus"></span></a></td>
+            <c:forEach var="c" items="${requestScope.songLists }" varStatus="status">
+                <c:if test="${status.count%6!=0}">
+                    <td class = "col-md-2">
+                    <div class="">
+                        <img style="width: 150px;height: 150px;margin: 0em" src="img/lists/${c.lid}.jpg" alt="${c.lname}" class="img-rounded" alt="Responsive image">
+                        <div class="text-left">
+                            <a href="${pageContext.request.contextPath}/ColListServlet?cid=${user.cid}&lid=${c.lid}"><span class="glyphicon glyphicon-plus"></span></a>
+                        </div>
+                        <span style="position: relative; top: 0; left: 0;"><a href="${pageContext.request.contextPath}/SongListInfoServlet?cid=${user.cid}&lid=${c.lid}&lname=${c.lname}">${c.lname}</a></span>
+
+                    </div>
+                    </td>
+                </c:if>
+                <c:if test="${status.count%6==0}">
+                <td class = "col-md-2">
+                    <div class="">
+                        <img style="width: 150px;height: 150px;margin: 0em" src="img/lists/${c.lid}.jpg" alt="${c.lname}" class="img-rounded" alt="Responsive image">
+                        <div class="text-left">
+                            <a href="${pageContext.request.contextPath}/ColListServlet?cid=${user.cid}&lid=${c.lid}"><span class="glyphicon glyphicon-plus"></span></a>
+                        </div>
+                        <span style="position: relative; top: 0; left: 0;"><a href="${pageContext.request.contextPath}/SongListInfoServlet?cid=${user.cid}&lid=${c.lid}&lname=${c.lname}">${c.lname}</a></span>
+
+                    </div>
+                </td>
                 </tr>
+                </c:if>
             </c:forEach>
         </table>
     </div>

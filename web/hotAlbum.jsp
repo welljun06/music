@@ -28,10 +28,10 @@
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="${pageContext.request.contextPath}/HotSongServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cd"></span> 发现音乐</a></li>
+                <li ><a href="${pageContext.request.contextPath}/HotSongServlet?cid=${user.cid}"><span class="glyphicon glyphicon-cd"></span> 发现音乐</a></li>
                 <li><a href="${pageContext.request.contextPath}/MyMusicServlet?cid=${user.cid}"><span class="glyphicon glyphicon-user"></span> 我的音乐</a></li>
                 <li><a href="${pageContext.request.contextPath}/CommendServlet?cid=${user.cid}"><span class="glyphicon glyphicon-heart"></span> 为你推荐</a></li>
-                <li class="dropdown">
+                <li class="dropdown active" >
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-list"></span> 排行榜
                         <b class="caret"></b>
@@ -71,27 +71,33 @@
         </div>
     </div>
 </nav>
+
 <div class="container">
-    <div class="row" style="margin-top: 50px">
-        <div class="col-md-7">
-            <img style="width: 600px;height: 600px" src="img/albums/${song.aid}.jpg" class="img-circle img-thumbnail img-responsive" alt="Responsive image">
-        </div>
-        <div class="col-md-5">
-            <div>
-                <h1>${song.sname}</h1>
-                <h4>专辑：${song.aname}</h4>
-                <h4>歌手：${song.pname}</h4>
-                <h4>年份：${song.stime}</h4>
-                <h4>类型：${song.stype}</h4>
-            </div>
-        </div>
+    <div class="row">
+        <h3 class="text-center">热门专辑前十榜</h3>
     </div>
-    <div class="col-md-offset-4 col-lg-4 text-center">
-        <h1><span class="glyphicon glyphicon-backward"></span>
-            <span class="glyphicon glyphicon-play"></span>
-            <span class="glyphicon glyphicon-forward"></span></h1>
-        <h1></h1>
-        <h1></h1>
+    <div class="row">
+        <table class="table table-condensed table-hover">
+            <%--<tr class="success">--%>
+            <%--<td>图片</td>--%>
+            <%--<td>歌曲</td>--%>
+            <%--<td>专辑</td>--%>
+            <%--<td>歌手</td>--%>
+            <%--<td>歌曲时间</td>--%>
+            <%--<td>歌曲类型</td>--%>
+            <%--<td>喜爱</td>--%>
+            <%--</tr>--%>
+            <c:forEach var="c" items="${requestScope.albums}" varStatus="status">
+                <tr>
+                    <td style="vertical-align: middle;"><h4>${status.count}.</h4></td>
+                    <td style="width: 60px;height: 60px"><div style="width: 60px;height: 60px"><img style="width: 60px;height: 60px" src="img/albums/${c.aid}.jpg" class="img-rounded img-responsive"></div></td>
+                    <td style="vertical-align: middle;"  class="col-md-4"><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
+                    <td style="vertical-align: middle;" class="col-md-4">${c.pname}</td>
+                        <%--<td style="vertical-align: middle;">${c.stime}</td>--%>
+                    <td style="vertical-align: middle;" class="col-md-2">${c.ayear}</td>
+                    <td style="vertical-align: middle;" class="col-md-2">${c.ainfo}</td>
+            </c:forEach>
+        </table>
     </div>
 </div>
 </body>

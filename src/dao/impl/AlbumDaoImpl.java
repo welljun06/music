@@ -80,4 +80,25 @@ public class AlbumDaoImpl implements AlbumDao{
         }
         return null;
     }
+    /*查找热门专辑*/
+    @Override
+    public List<Album> rankAlbum(){
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            String sql = "select aname,singers.pid,albums.aid,ainfo,ayear,pname from songs,albums,singers where songs.aid=albums.aid and singers.pid=albums.pid group by songs.aid order by SUM(scount) desc LIMIT 10 OFFSET 0";
+            st = conn.prepareStatement(sql);
+            rs = st.executeQuery();
+            List<Album> list = new ArrayList<Album>();
+            list = setAlbum(rs);
+            return list;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
+    }
 }

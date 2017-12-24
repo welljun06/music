@@ -25,7 +25,7 @@ public class HotSongServlet extends HttpServlet{
                 List<Song> list1 = service.newSongs();
                 User user = service.find(cid);
                 request.setAttribute("list1", list1);
-                List<SongList> songLists = service.getAllSongList();
+                List<SongList> songLists = service.getHotSongList();
                 request.setAttribute("songLists",songLists);
                 request.setAttribute("user",user);
                 request.getRequestDispatcher("/discover.jsp").forward(request, response);

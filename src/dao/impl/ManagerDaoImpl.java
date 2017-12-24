@@ -1,6 +1,7 @@
 package dao.impl;
 
 import dao.ManagerDao;
+import domain.Log;
 import domain.Manager;
 import domain.User;
 import util.JdbcUtils;
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ManagerDaoImpl implements ManagerDao{
     @Override
@@ -169,5 +172,42 @@ public class ManagerDaoImpl implements ManagerDao{
         } finally {
             JdbcUtils.release(conn, st, rs);
         }
+    }
+    private List<Log> setLog(ResultSet rs){
+        List<Log> list = new ArrayList<Log>();
+        try {
+            while (rs.next()) {
+                Log c = new Log();
+                c.setLogid(rs.getInt("logid"));
+                c.setWho(rs.getString("who"));
+                c.setTime(rs.getDate("time"));
+                c.setTable_name(rs.getString("table_name"));
+                c.setOperation(rs.getString("operation"));
+                c.setKey_value(rs.getString("key_value"));
+                list.add(c);
+            }
+        } catch (Exception e){
+        }
+        return list;
+    }
+    @Override
+    public List<Log> getAllLog() {
+        Connection conn = null;
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            conn = JdbcUtils.GetConnection();
+            String sql = "select * from logs";
+            st = conn.prepareStatement(sql);
+            rs = st.executeQuery();
+            List<Log> list = new ArrayList<Log>();
+            list = setLog(rs);
+            return list;
+        } catch (Exception e) {
+
+        } finally {
+            JdbcUtils.release(conn, st, rs);
+        }
+        return null;
     }
 }

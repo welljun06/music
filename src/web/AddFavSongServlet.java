@@ -25,13 +25,14 @@ public class AddFavSongServlet extends HttpServlet{
             String sid = request.getParameter("sid");
             service.addFavSong(cid,sid);
             User user = service.find(cid);
-            request.setAttribute("message","收藏成功");
+            request.setAttribute("message","收藏成功!");
             request.setAttribute("user",user);
+//            JOptionPane.showMessageDialog(null, "登录成功", "提示", JOptionPane.WARNING_MESSAGE);
             request.getRequestDispatcher("/message.jsp").forward(request, response);
         }
         catch (Exception e) {
             e.printStackTrace();
-            request.setAttribute("message","查看歌曲失败");
+            request.setAttribute("message","收藏失败~");
             request.getRequestDispatcher("/message.jsp").forward(request, response);
         }
     }

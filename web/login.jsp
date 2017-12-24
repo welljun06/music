@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap Login Form Template</title>
+    <title>登录</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -31,9 +31,12 @@
 </head>
 
 <body>
-
+<div class="container-fluid" style="position:relative">
+    <div class="container-fluid" style="padding: 0em;position:absolute;left:0;top:0">
+    <video src="img/1.mp4" class="img-responsive" alt="Four slide"  autoplay="autoplay" loop="loop"></video>
+    </div>
 <!-- Top content -->
-<div class="top-content">
+    <div class="top-content">
 
     <div class="inner-bg">
         <div class="container">
@@ -51,7 +54,7 @@
                 <div class="col-sm-4 col-sm-offset-4 form-box">
                     <div class="form-top">
                         <div class="form-top-left">
-                            <h2>欢迎</h2>
+                            <h2 style="color: white;">欢迎</h2>
                         </div>
                         <div class="form-top-right">
                             <h3><span class="glyphicon glyphicon-music"></span></h3>
@@ -74,7 +77,7 @@
             </div>
         </div>
     </div>
-
+</div>
 </div>
 
 <!-- Javascript -->

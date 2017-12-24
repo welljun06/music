@@ -5,7 +5,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8">
-    <title>网易云音乐</title>
+    <title>云音乐</title>
     <link rel='stylesheet' href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
     <link rel='stylesheet' href='css/style.css'>
     <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -24,7 +24,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-headphones"></span> 音乐云平台</a>
+            <a class="navbar-brand" href="${pageContext.request.contextPath}/IndexServlet?cid=${user.cid}"><span class="glyphicon glyphicon-headphones"></span> 音乐云平台</a>
         </div>
         <div class="collapse navbar-collapse" id="example-navbar-collapse">
             <ul class="nav navbar-nav">
@@ -37,13 +37,8 @@
                         <b class="caret"></b>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">jmeter</a></li>
-                        <li><a href="#">EJB</a></li>
-                        <li><a href="#">Jasper Report</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">分离的链接</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">另一个分离的链接</a></li>
+                        <li><a href="${pageContext.request.contextPath}/RankSongServlet?cid=${user.cid}">热门歌曲排行</a></li>
+                        <li><a href="${pageContext.request.contextPath}/RankAlbumServlet?cid=${user.cid}">热门专辑排行</a></li>
                     </ul>
                 </li>
             </ul>
@@ -62,6 +57,7 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img style="width: 20px;height: 20px;margin: 0em" src="img/users/${user.cid}.jpg" class="img-circle">
                             ${ user.cname }
                             <b class="caret"></b>
                         </a>
@@ -77,23 +73,48 @@
 </nav>
 <div class="container">
     <div class="row">
-        <div class="row">
-            <h3 class="text-center">歌手介绍</h3>
+        <div class="col-md-4">
+            <div><img src="img/singers/${singer.pid}.jpg" class="img-thumbnail img-responsive" alt="Responsive image"></div>
         </div>
-        <div class="row table-responsive ">
-            <table class="table table-condensed table-striped">
-                <tr  class="success">
-                    <td>歌手</td>
-                    <td>歌手类型</td>
-                    <td>歌手信息</td>
-                </tr>
+        <div class="col-md-8">
+            <h1 class="text-center">歌手介绍</h1>
+            <div class="row table-responsive ">
+                <table class="table table-condensed table-striped">
+                    <tr  class="success">
+                        <td>歌手</td>
+                        <td>歌手类型</td>
+                        <td>歌手信息</td>
+                    </tr>
+                    <tr>
+                        <td>${singer.pname}</td>
+                        <td>${singer.ptype}</td>
+                        <td>${singer.pinfo}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <table class="table table-condensed table-striped">
+            <tr>
+                <td>歌曲</td>
+                <td>专辑</td>
+                <td>歌手</td>
+                <td>歌曲时间</td>
+                <td>歌曲类型</td>
+                <td>喜爱</td>
+            </tr>
+            <c:forEach var="c" items="${requestScope.songs}" varStatus="status">
                 <tr>
-                    <td>${singer.pname}</td>
-                    <td>${singer.ptype}</td>
-                    <td>${singer.pinfo}</td>
+                    <td><a href="${pageContext.request.contextPath}/PlayServlet?cid=${user.cid}&sid=${c.sid}">${c.sname}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/AlbumInfoServlet?cid=${user.cid}&aid=${c.aid}">${c.aname}</a></td>
+                    <td><a href="${pageContext.request.contextPath}/SingerInfoServlet?cid=${user.cid}&sid=${c.sid}&pname=${c.pname}">${c.pname}</a></td>
+                    <td>${c.stime}</td>
+                    <td>${c.stype}</td>
+                    <td><a href="${pageContext.request.contextPath}/AddFavSongServlet?cid=${user.cid}&sid=${c.sid}"><span class="glyphicon glyphicon-heart" style="color: red"></span></a></td>
                 </tr>
-            </table>
-        </div>
+            </c:forEach>
+        </table>
     </div>
 </div>
 </body>

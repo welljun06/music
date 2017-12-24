@@ -74,6 +74,16 @@ public class BusinessServiceImpl implements BusinessService{
     public List<Song> commend(String lid, String stype){return songDao.commend(lid,stype);}
     @Override
     public String findListType(String lid){return songListDao.findListType(lid);}
+    @Override
+    public List<Album> rankAlbum(){return albumDao.rankAlbum();}
+    @Override
+    public List<SongList> getHotSongList(){return songListDao.getHotSongList();}
+    @Override
+    public List<Song> getSingerSong(String pid){return songDao.getSingerSong(pid);}
+    @Override
+    public String getSingerId(String sid, String pname){return singerDao.getSingerId(sid, pname);}
+    @Override
+    public void addListCount(String lid){songListDao.addListCount(lid);}
     //manager
     @Override
     public String addsinger(String pname, String ptype, String pjpg, String pinfo) {
@@ -92,4 +102,11 @@ public class BusinessServiceImpl implements BusinessService{
 
     @Override
     public void deletesong(String sid) {managerDao.deletesong(sid);}
+    public List<Log> getAllLog(){
+        return managerDao.getAllLog();
+    }
+
+    public int addUser(String cid,String cname,String cpw,String cjpg,String cinfo){
+        return userDao.addUser(cid,cname,cpw,cjpg,cinfo);
+    }
 }

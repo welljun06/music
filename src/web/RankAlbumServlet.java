@@ -1,5 +1,6 @@
 package web;
 
+import domain.Album;
 import domain.Song;
 import domain.User;
 import service.BusinessService;
@@ -12,28 +13,25 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class SongListInfoServlet extends HttpServlet{
+public class RankAlbumServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
             BusinessService service = new BusinessServiceImpl();
-            String lid = request.getParameter("lid");
-            String lname = request.getParameter("lname");
             String cid = request.getParameter("cid");
+            List<Album> albums = service.rankAlbum();
+            request.setAttribute("albums", albums);
             User user = service.find(cid);
-            List<Song> songs = service.findSongListSongs(lid);
-            service.addListCount(lid);
-            request.setAttribute("lid",lid);
-            request.setAttribute("lname",lname);
             request.setAttribute("user",user);
-            request.setAttribute("songs",songs);
-            request.getRequestDispatcher("/SongListInfo.jsp").forward(request, response);
+            request.getRequestDispatcher("/hotAlbum.jsp").forward(request, response);
         }
         catch (Exception e) {
             e.printStackTrace();
-
+            request.setAttribute("message","查看专辑失败");
+            request.getRequestDispatcher("/message.jsp").forward(request, response);
         }
     }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException,IOException {
         doGet(request, response);
